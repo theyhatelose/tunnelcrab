@@ -5,22 +5,20 @@ A friendly Windows client for VLESS/Reality with a reactive crab UI.
 TunnelCrab is built around one idea: connecting should not require users to understand Reality, SNI, connection modes or technical logs.
 Add a link or subscription, choose a server and press one button.
 
-The crab reacts to the connection state, errors are explained in plain language and the technical details stay out of the way
+The crab reacts to the connection state, errors are explained in plain language, and the
+technical details stay out of the way.
+
 *[Русская версия ниже](#ru)*
 
 ## Screenshots
 
-<p align="center">
-  <img src="assets/screenshot-main.png" alt="TunnelCrab main screen" width="720">
-</p>
-
-<p align="center">
-  <img src="assets/screenshot-servers.png" alt="TunnelCrab servers screen" width="720">
-</p>
-
-<p align="center">
-  <img src="assets/screenshot-about.png" alt="TunnelCrab about screen" width="720">
-</p>
+<table align="center">
+  <tr>
+    <td align="center"><img src="assets/screenshot-main.png" alt="TunnelCrab main screen" width="260"></td>
+    <td align="center"><img src="assets/screenshot-servers.png" alt="TunnelCrab servers screen" width="260"></td>
+    <td align="center"><img src="assets/screenshot-about.png" alt="TunnelCrab about screen" width="260"></td>
+  </tr>
+</table>
 
 ## Download
 
