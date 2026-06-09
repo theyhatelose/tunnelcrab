@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>TunnelCrab</title>
+</head>
+<body data-phase="idle" class="booting">
+  <div class="glow glow-a"></div>
+  <div class="glow glow-b"></div>
+
+  <header class="titlebar">
+    <div class="title pywebview-drag-region">
+      <span class="dot" id="title-dot"></span> <span data-brand-name>TunnelCrab</span>
+    </div>
+    <div class="winbtns">
+      <button class="winbtn" id="theme-btn" data-i18n-title="ui.appearance" title="Оформление">◐</button>
+      <button class="winbtn" id="min" data-i18n-title="ui.minimize" title="Свернуть">—</button>
+      <button class="winbtn close" id="close" data-i18n-title="ui.close" title="Закрыть">✕</button>
+    </div>
+  </header>
+
+  <main class="scroll">
+    <section class="hero">
+      <h1 class="brand" data-brand-name>TunnelCrab</h1>
+      <p class="sub" data-i18n="hero.sub">Личный туннель к нужным сайтам</p>
+      <p class="tag" data-i18n="hero.tag">Крабик, который помогает открывать нужные сайты</p>
+
+      <button class="server-select" id="server-select">
+        <span class="server-label" data-i18n="server.label">Сервер</span>
+        <span class="server-info">
+          <span class="server-name" id="server-name">—</span>
+          <span class="server-loc" id="server-loc"></span>
+        </span>
+        <span class="chev">▾</span>
+      </button>
+    </section>
+
+    <section class="card status-card">
+      <div class="crab-wrap">
+        <div class="crab-halo" id="crab-halo"></div>
+        <img id="crab" class="crab" alt="" />
+        <div class="crab-sand" aria-hidden="true">
+          <span class="sand-puff"></span>
+          <span class="sand-puff"></span>
+          <span class="sand-puff"></span>
+          <span class="sand-puff"></span>
+        </div>
+      </div>
+      <div class="status" id="status" data-i18n="status.loading">Загрузка…</div>
+      <div class="helper" id="helper"></div>
+
+      <div class="metrics">
+        <div class="chip"><span class="chip-t" data-i18n="metric.ping">Пинг</span><span class="chip-v" id="m-ping">—</span></div>
+        <div class="chip"><span class="chip-t" data-i18n="metric.ip">IP</span><span class="chip-v" id="m-ip">—</span></div>
+        <div class="chip"><span class="chip-t" data-i18n="metric.session">Сессия</span><span class="chip-v" id="m-session">—</span></div>
+        <div class="chip"><span class="chip-t" data-i18n="metric.dns">DNS</span><span class="chip-v ok" id="m-dns" data-i18n="dns.waiting">Ждёт</span></div>
+      </div>
+      <div class="traffic" id="traffic"></div>
+    </section>
+
+    <div class="connect-wrap">
+      <button class="connect-circle" id="toggle">
+        <span class="connect-icon" id="connect-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v9"/><path d="M7.5 6.5a7 7 0 1 0 9 0"/></svg></span>
+      </button>
+      <div class="connect-hint" id="connect-hint" data-i18n="hint.idle">Нажми чтобы прорыть туннель</div>
+      <div class="empty-state" id="empty-state" hidden>
+        <div class="empty-title" data-i18n="empty.title">Серверов пока нет</div>
+        <div class="empty-body" data-i18n="empty.body">Добавьте сервер или импортируйте подписку, чтобы подключиться.</div>
+      </div>
+    </div>
+
+    <div class="bottombar">
+      <span class="indicator" id="indicator" data-i18n="indicator.idle">● Готов</span>
+    </div>
+
+    <div class="actions">
+      <button class="ghost" id="open-menu" data-i18n="actions.menu">Меню</button>
+      <button class="ghost" id="quick-check" data-i18n="actions.check">Проверить сайты</button>
+    </div>
+  </main>
+
+  <!-- Full menu panel -->
+  <div class="panel" id="menu-panel">
+    <div class="panel-top pywebview-drag-region">
+      <button class="winbtn" id="menu-back">‹</button>
+      <span class="panel-title" id="menu-title" data-i18n="menu.title">Меню</span>
+      <span style="width:36px"></span>
+    </div>
+    <div class="panel-body">
+      <section class="tabview" data-tab="servers" id="tab-servers"></section>
+      <section class="tabview" data-tab="checks" id="tab-checks" hidden></section>
+      <section class="tabview" data-tab="settings" id="tab-settings" hidden></section>
+      <section class="tabview" data-tab="about" id="tab-about" hidden></section>
+    </div>
+    <nav class="tabbar">
+      <button class="tab active" data-tab="servers" data-i18n="tab.servers">Серверы</button>
+      <button class="tab" data-tab="checks" data-i18n="tab.checks">Проверки</button>
+      <button class="tab" data-tab="settings" data-i18n="tab.settings">Настройки</button>
+      <button class="tab" data-tab="about" data-i18n="tab.about">О&nbsp;нас</button>
+    </nav>
+  </div>
+
+  <!-- Update banner -->
+  <div class="update-banner" id="update-banner" hidden>
+    <span class="update-text" id="update-text" data-i18n="update.available">Доступно обновление</span>
+    <button class="btn" id="update-btn" data-i18n="update.button">Обновить</button>
+    <button class="update-x" id="update-dismiss" data-i18n-title="update.later" title="Позже">✕</button>
+  </div>
+
+  <!-- Close choice dialog -->
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  <div class="modal" id="close-modal">
+    <div class="modal-title" data-i18n="close.title">Закрыть TunnelCrab?</div>
+    <div class="modal-text" data-i18n="close.text">Свернуть крабика в трей или выйти совсем?</div>
+    <label class="modal-check"><input type="checkbox" id="close-remember" /> <span data-i18n="close.remember">Запомнить мой выбор</span></label>
+    <div class="modal-actions">
+      <button class="btn sec" id="close-tray" data-i18n="close.tray">Свернуть в трей</button>
+      <button class="btn" id="close-quit" data-i18n="close.quit">Выйти</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Theme sheet (Phase 1: themes; Phase 2 adds full menu) -->
+  <div class="sheet-backdrop" id="sheet-backdrop"></div>
+  <div class="sheet" id="theme-sheet">
+    <div class="sheet-grip"></div>
+    <div class="sheet-title" data-i18n="ui.appearance">Оформление</div>
+    <div class="theme-grid" id="theme-grid"></div>
+    <div class="sheet-title" data-i18n="lang.section" style="margin-top:14px">Язык / Language</div>
+    <div class="seg" id="seg-lang"><button data-v="ru">Русский</button><button data-v="en">English</button></div>
+  </div>
+
+  <div class="modal" id="no-server-modal">
+    <div class="modal-title" data-i18n="noserver.title">Сначала добавь сервер</div>
+    <div class="modal-text" data-i18n="noserver.text">Чтобы подключиться, добавь хотя бы один сервер.</div>
+    <div class="modal-actions" style="flex-direction:column">
+      <button class="btn" id="ns-clipboard" data-i18n="noserver.clipboard">Вставить из буфера обмена</button>
+      <button class="btn sec" id="ns-manual" data-i18n="noserver.manual">Ввести вручную</button>
+      <button class="btn sec" id="ns-subscription" data-i18n="noserver.subscription">Добавить подписку</button>
+      <button class="btn sec" id="ns-cancel" data-i18n="noserver.cancel">Отмена</button>
+    </div>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
